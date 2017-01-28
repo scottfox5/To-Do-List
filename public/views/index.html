@@ -9,11 +9,29 @@
     <title>To-Do-List</title>
   </head>
   <body>
-    <header>
-      <h1>To-Do</h1>
-    </header>
-    <Main class="container-fluid">
-      
-    </Main>
+    <main class="container-fluid">
+      <header>
+        <h1>To Do List</h1>
+      </header>
+      <h2>Add a task</h2>
+      <form id="task-form">
+        <div class="form-group">
+          <label for="task">Task:</label>
+          <input type="text" id="task" name="task" class="form-control" />
+        </div>
+
+        <div class="form-group">
+          <label for="notes">Notes:</label>
+          <input type="text" id="notes" name="notes" class="form-control" />
+        </div>
+
+        <button id="task-submit" class="btn btn-default">Add Task</button>
+      </form>
+
+      <h2>Tasks</h2>
+      <ul id="task-list">
+
+      </ul>
+    </main>
   </body>
 </html>

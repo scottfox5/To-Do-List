@@ -15,7 +15,7 @@ router.get("/", function(req, res) {
       res.sendStatus(500);
       done();
     } else {
-      client.query("SELECT * FROM tasks", function(err, result) {
+      client.query("SELECT * FROM tasks ORDER BY complete DESC", function(err, result) {
         done();
         if (err) {
           console.log("Error querying DB", err);
@@ -30,7 +30,7 @@ router.get("/", function(req, res) {
 });
 
 router.post("/", function(req, res) {
-  console.log('pet', req.body);
+  console.log('task', req.body);
   pool.connect(function(err, client, done) {
     if (err) {
       console.log("Error connecting to DB", err);
@@ -38,8 +38,8 @@ router.post("/", function(req, res) {
       done();
     } else {
       client.query(
-        "INSERT INTO tasks (task) VALUES ($1) RETURNING *;",
-        [req.body.task],
+        "INSERT INTO tasks (task, notes, complete, updated) VALUES ($1, $2, $3, $4) RETURNING *;",
+        [req.body.task, req.body.notes, req.body.complete, req.body.updated],
         function(err, result) {
           done();
           if (err) {
@@ -63,8 +63,8 @@ router.put('/:id', function(req, res){
       res.sendStatus(500);
       done();
     } else {
-      client.query('UPDATE tasks SET task=$2 WHERE id = $1 RETURNING *',
-                   [req.params.id, req.body.task],
+      client.query('UPDATE tasks SET task=$2, notes=$3, complete=$4, updated=$5 WHERE id = $1 RETURNING *',
+                   [req.params.id, req.body.task, req.body.notes, req.body.complete, req.body.updated],
                    function(err, result){
                      done();
                      if (err) {

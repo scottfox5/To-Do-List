@@ -1,11 +1,12 @@
 $(function(){
-console.log('Document ready')
 
 getTasks();
 
-$('#task-form').on('submit', addTask);
-$('#task-list').on('click', '.update', updateTask);
-$('#task-list').on('click', '.delete', deleteTask);
+$('#task-form').on('click', '#addTask', addTask);
+$('#task-table').on('change', '#checkIt', updateCheck);
+$('#task-table').on('click', '.update', updateTask);
+$('#task-table').on('click', '.delete', deleteTask);
+
 
 });
 
@@ -17,44 +18,82 @@ function getTasks() {
   });
 }
 
-function displayTasks(tasks) {
-  console.log('Got tasks from the server', tasks);
+function displayTasks(tasks){
 
-  $('#task-list').empty();
+    $('#table-body').empty();
 
-  tasks.forEach(function(task){
-    var $li = $('<li></li>');
+    tasks.forEach(function(task){
 
-    var $form = $('<form></form>');
+    var $tableRow = $('<tr></tr>');
 
-    $form.append('<input type="text" name="task" value="' + task.task + '"/>');
-    $form.append('<input type="text" name="notes" value="' + task.notes + '"/>');
+    if (task.complete == true){
+      var $checkBox = $(('<td><input id="checkIt" type="checkbox" name="complete" value="false" checked/></td>'));
+      $checkBox.data('id', task.id);
+      $tableRow.append($checkBox);
+    } else {
+      var $checkBox = $(('<td><input id="checkIt" type="checkbox" name="complete" value="true"/></td>'));
+      $checkBox.data('id', task.id);
+      $tableRow.append($checkBox);
+    }
 
-    var $saveButton = $('<button class="update">update</button>');
-    $saveButton.data('id', task.id);
-    $form.append($saveButton);
+    $tableRow.append('<td><input type="text" name="task" value="' + task.task +'"/></td>');
+    $tableRow.append('<td><input type="text" name="notes" value="' + task.notes + '"/></td>');
 
-    var $deleteButton = $('<button class="delete">delete</button>');
+    // var $checkBox = $(('<td><input id="checkIt" type="checkbox" name="complete" value="'+task.complete+'"/></td>'));
+    // $checkBox.data('id', task.id);
+    // $tableRow.append($checkBox);
+
+    //$tableRow.append('<td id="theDate">' + task.updated + '</td>');
+
+    var $updateButton = $('<td><button class="update btn btn-outline-success btn-sm">Update</button></td>');
+    $updateButton.data('id', task.id);
+    $tableRow.append($updateButton);
+
+    var $deleteButton = $('<td><button class="delete btn btn-outline-danger btn-sm">Delete</button></td>');
     $deleteButton.data('id', task.id);
-    $form.append($deleteButton);
+    $tableRow.append($deleteButton);
 
-    $li.append($form);
-    $('#task-list').append($li);
+    console.log($('#checkIt').attr('value'));
+
+    $('#task-table').append($tableRow);
+
+    // if ($('#checkIt').attr('value') === 'true'){
+    //   $("#checkIt").parent().siblings().children().css({'text-decoration': 'line-through', 'background-color': 'red', 'color': 'red'});
+    //   $("#checkIt").attr('checked', true);
+    // };
+    //$('#checkIt:checked').parent().siblings().children().css('text-decoration', 'line-through');
+    $("[value=false]").parent().siblings().children().css({'text-decoration': 'line-through', 'color': 'lightgray'});
+
   });
 }
 
 function addTask(event) {
-  // prevent browser from refreshing
   event.preventDefault();
 
-  // get the info out of the form
-  var formData = $(this).serialize();
+  var formData = $('#task-form').serialize();
 
-  // send data to server
   $.ajax({
     url: '/tasks',
     type: 'POST',
     data: formData,
+    success: getTasks
+  });
+
+  $('#task-form').find('input[type=text]').val('');
+}
+
+function updateCheck(event) {
+  event.preventDefault();
+
+  var $check = $(this).parent();
+  var $table = $check.closest('tr');
+
+  var data = $table.find('input');
+
+  $.ajax({
+    url: '/tasks/' + $check.data('id'),
+    type: 'PUT',
+    data: data.serialize(),
     success: getTasks
   });
 }
@@ -62,15 +101,15 @@ function addTask(event) {
 function updateTask(event) {
   event.preventDefault();
 
-  var $button = $(this);
-  var $form = $button.closest('form');
+  var $button = $(this).parent();
+  var $table = $button.closest('tr');
 
-  var data = $form.serialize();
+  var data = $table.find('input');
 
   $.ajax({
     url: '/tasks/' + $button.data('id'),
     type: 'PUT',
-    data: data,
+    data: data.serialize(),
     success: getTasks
   });
 }
@@ -78,7 +117,7 @@ function updateTask(event) {
 function deleteTask (event){
   event.preventDefault();
   $.ajax({
-    url: '/tasks/' + $(this).data('id'),
+    url: '/tasks/' + $(this).parent().data('id'),
     type: 'DELETE',
     success: getTasks
   });

@@ -3,7 +3,7 @@ CREATE DATABASE to_do_list_db;
 CREATE TABLE tasks (
 	id SERIAL PRIMARY KEY,
 	task VARCHAR (80),
-	complete BOOLEAN NOT NULL DEFAULT FALSE,
+	complete BOOLEAN DEFAULT FALSE,
 	notes TEXT,
 	updated TIMESTAMP,
 	list_id INT

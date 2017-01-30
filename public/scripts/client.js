@@ -67,7 +67,6 @@ function displayTasks(tasks){
     //   $("#checkIt").attr('checked', true);
     // };
     //$('#checkIt:checked').parent().siblings().children().css('text-decoration', 'line-through');
-    // $("[value=false]").parent().siblings().children().css({'text-decoration': 'line-through', 'color': 'lightgray'});
     $("[value=false]").parent().siblings().find('input').css({'text-decoration': 'line-through', 'color': 'lightgray'});
 
   });

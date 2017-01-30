@@ -1,37 +1,15 @@
-Description
-Weekend Challenge #4
-Hello Primers!
+#Weekend Challenge 3
 
-Welcome to your 4th weekend challenge!
+This is a To Do list application using the full stack with the list being stored as a sql database. When the user adds a task, the database is updated. When the task is complete the user can check it off and its status will change in the database to complete (true). Also, completed items have a different appearance on the screen and they are moved to the bottom of the list. Finally, when the user wants to delete the item from the list, a button can be clicked, and it will also be removed from the database.
 
-Full stack is pretty awesome, huh? The idea that you are able to spin up a full application architecture in such a short time is pretty incredible. Also worth noting: there are only two weekend challenges left! This weekend is all about showing us that you have a handle on each of the different parts of the full stack.
+##Author: Scott Fox
 
-The To-Do App
-You are going to create a 'TO DO' application. This type of application is very common to tackle when learning a new language, which makes it extremely valuable to work through for the first time. Chances are good that at some point in your career you will tackle this again while learning another language.
+##Date: 29 Jan 2017
 
-Here are the specific components for the challenge:
+###Technology used:
+HTML, CSS, Bootstrap, JavaScript, jQuery, Node.js, Express, SQL, Git
 
-Create a front end experience that allows a user to create a Task.
-When the Task is created, it should be stored inside of a database (SQL)
-Whenever a Task is created the front end should refresh to show all tasks that need to be completed.
-Each Task should have an option to 'Complete' or 'Delete'.
-When a Task is complete, its visual representation should change on the front end. For example, the background of the task container could change from gray to green. The complete option should be 'checked off'. Each of these are accomplished in CSS, but will need to hook into logic to know whether or not the task is complete.
-Whether or not a Task is complete should also be stored in the database.
-Deleting a Task should remove it both from the front end as well as the Database.
-Styling
+###Setup:
+The database used can be found in data folder in the file database.sql.
 
-Make sure that you also show us your best styling chops. Use either Bootstrap or plain CSS.
-
-Approach
-
-We would recommend you spend some time thinking about how to approach this problem. Think through all the logic that will be needed prior to writing any code. Take your time, relax, remember that impostor syndrome is real, and that you are capable of knocking this out of the park!
-
-Database Structure
-
-Please include a database.sql text file in your repo that includes all of your CREATE TABLE queries. This is so we can re-create your database while testing your app.
-
-HARD MODE
-In whatever fashion you would like, create an 'are you sure: yes / no' option when deleting a task. Once again, you can interrupt this however you would like.
-
-PRO MODE
-Adjust the logic so that completed tasks are brought to the bottom of the page, where the remaining tasks left to complete are brought to the top of the list.
+npm init, npm install express --save, npm install body-parser --save, node server.js

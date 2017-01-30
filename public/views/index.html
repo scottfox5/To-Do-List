@@ -3,43 +3,60 @@
   <head>
     <script src="../vendors/jquery.js"></script>
     <script src="../scripts/client.js"></script>
-    <!-- <link href=" -google font here- " rel="stylesheet"> -->
     <link rel="stylesheet" href="../vendors/bootstrap.css" />
-    <link rel="stylesheet" href="../styles/stylesheet.css"  />
+    <link rel="stylesheet" href="../styles/stylesheet.css" />
+    <!-- <link rel="stylesheet" href="../vendors/font-awesome.css" /> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Handlee" rel="stylesheet">
     <title>To-Do-List</title>
   </head>
   <body>
-    <main class="container-fluid">
-      <header>
-        <h1>Scott's To Do List</h1>
-      </header>
-      <form id="task-form">
-        <div class="form-group">
-          <!-- <label for="task">Task:</label> -->
-          <input type="text" id="task" name="task" class="form-control" placeholder="Add task here" />
+    <main>
+
+      <div class='container-fluid'>
+
+        <div class='container'>
+          <div class="form-div">
+            <img class="img-responsive" src="../images/checklist.png"/>
+            <form class="form-horizontal" id="task-form">
+              <div class='col-xs-12'>
+                <div class="form-group">
+                  <label class="sr-only" for="task">Task</label>
+                  <input type="text" id="task" name="task" class="form-control focus" placeholder="add task..." />
+                </div>
+              </div>
+              <div class='col-xs-12'>
+                <div class="form-group">
+                  <label class="sr-only" for="notes">Notes</label>
+                  <input type="text" id="notes" name="notes" class="form-control focus" placeholder="details..." />
+                </div>
+              </div>
+              <div class="col-xs-12">
+                <div class="form-group">
+                  <button id="addTask" class="btn btn-outline-primary btn-lg" type="button"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+
+          <div class="table-responsive row">
+            <table id="task-table" class="table-hover table-bordered col-md-12">
+              <thead>
+                <th><i class="fa fa-check-square fa-lg" aria-hidden="true"></i></th>
+                <th><i class="fa fa-list fa-lg" aria-hidden="true"></i></th>
+                <th><i class="fa fa-asterisk fa-lg" aria-hidden="true"></i></th>
+                <th><i class="fa fa-clock-o fa-lg" aria-hidden="true"></i></th>
+                <th><i class="fa fa-pencil-square fa-lg" aria-hidden="true"></i></th>
+                <th><i class="fa fa-minus-square fa-lg" aria-hidden="true"></i></th>
+              </thead>
+              <tbody id='table-body'>
+              </tbody>
+            </table>
+          </div>
         </div>
+      </div>
 
-        <div class="form-group">
-          <!-- <label for="notes">Notes:</label> -->
-          <input type="text" id="notes" name="notes" class="form-control" placeholder="Enter details" />
-        </div>
-
-        <button id="addTask" class="btn btn-outline-primary">Add!</button>
-      </form>
-
-      <div class="table-responsive">
-        <table id="task-table" class="">
-          <thead>
-            <th>Task</th>
-            <th>Notes</th>
-            <th>Status</th>
-            <!-- <th>Time</th> -->
-            <th>Update</th>
-            <th>Delete</th>
-          </thead>
-          <tbody id='table-body'>
-          </tbody>
-        </table>
     </main>
   </body>
 </html>

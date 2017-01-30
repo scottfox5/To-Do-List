@@ -1,7 +1,89 @@
 body {
-  text-align: center;
+  background-color: midnightblue;
+
 }
 
-/*tr {
-  color: red;
-}*/
+body, input, table th, table td {
+  text-align: center;
+  font-family: 'Handlee', cursive;
+  font-size: 20px;
+}
+
+img {
+  padding: 20px;
+}
+
+.container {
+  border: 2px solid black;
+  border-radius: 20px;
+  margin-bottom: 100px;
+  margin-top: 100px;
+  background-color: ghostwhite !important;
+}
+
+.form-div, .table-responsive {
+    width: 80%;
+    margin:0 auto;;
+}
+
+form {
+  margin-top: 50px;
+}
+
+table {
+  margin: 50px 0 50px;
+  border-radius: 30px;
+}
+
+form input[type="text"] {
+  padding: 10px;
+  border: none;
+  border-bottom: solid 2px #c9c9c9;
+  transition: border 0.3s;
+}
+form input[type="text"]:focus,
+form input[type="text"].focus {
+  border-bottom: solid 2px #969696;
+}
+
+table input[type="text"] {
+  padding: 10px;
+  border: solid 1px #fff;
+  box-shadow: inset 1px 1px 2px 0 #707070;
+  transition: box-shadow 0.3s;
+}
+table input[type="text"]:focus,
+table input[type="text"].focus {
+  box-shadow: inset 1px 1px 2px 0 #c9c9c9;
+  outline: none;
+}
+
+#task-form ::-webkit-input-placeholder {
+   color: skyblue;
+}
+#task-form :-moz-placeholder { /* Firefox 18- */
+   color: lightgray;
+}
+#task-form ::-moz-placeholder {  /* Firefox 19+ */
+   color: lightgray;
+}
+#task-form :-ms-input-placeholder {
+   color: lightgray;
+}
+
+.editFields {
+  display: table-cell;
+  width: 100%;
+}
+
+.table {
+  border: 0.2px solid midnightblue;
+}
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+   border: 0.2px solid midnightblue;
+}

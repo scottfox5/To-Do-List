@@ -2,11 +2,10 @@ $(function(){
 
 getTasks();
 
-$('#task-form').on('click', '#addTask', addTask);
-$('#task-table').on('change', '#checkIt', updateCheck);
-$('#task-table').on('click', '.update', updateTask);
-$('#task-table').on('click', '.delete', deleteTask);
-
+  $('#task-form').on('click', '#addTask', addTask);
+  $('#task-table').on('change', '#checkIt', updateCheck);
+  $('#task-table').on('click', '.update', updateTask);
+  $('#task-table').on('click', '.delete', deleteTask);
 
 });
 
@@ -39,9 +38,6 @@ function displayTasks(tasks){
     $tableRow.append('<td><input class="focus editFields" type="text" name="task" value="' + task.task +'"/></td>');
     $tableRow.append('<td><input class="focus editFields" type="text" name="notes" value="' + task.notes + '"/></td>');
 
-    // var $checkBox = $(('<td><input id="checkIt" type="checkbox" name="complete" value="'+task.complete+'"/></td>'));
-    // $checkBox.data('id', task.id);
-    // $tableRow.append($checkBox);
     var $now = $.now();
     var time = $now.toLocaleDateString;
     if (task.update == null) {
@@ -62,31 +58,34 @@ function displayTasks(tasks){
 
     $('#task-table').append($tableRow);
 
-    // if ($('#checkIt').attr('value') === 'true'){
-    //   $("#checkIt").parent().siblings().children().css({'text-decoration': 'line-through', 'background-color': 'red', 'color': 'red'});
-    //   $("#checkIt").attr('checked', true);
-    // };
-    //$('#checkIt:checked').parent().siblings().children().css('text-decoration', 'line-through');
     $("[value=false]").parent().siblings().find('input').css({'text-decoration': 'line-through', 'color': 'lightgray'});
 
   });
 }
 
 function addTask(event) {
-  event.preventDefault();
 
-  var formData = $('#task-form').serialize();
+  var $form = $('#task-form')[0];
 
-  $.ajax({
-    url: '/tasks',
-    type: 'POST',
-    data: formData,
-    success: getTasks
-  });
-  swal("Great!", "You added a task!", "success")
+  if($form.checkValidity()) { // checking input fields for required text
+    event.preventDefault();
+    var formData = $('#task-form').serialize();
 
-  $('#task-form').find('input[type=text]').val('');
-}
+    $.ajax({
+      url: '/tasks',
+      type: 'POST',
+      data: formData,
+      success: getTasks
+    });
+    swal("Great!", "You added a task!", "success")
+
+  } else {
+    return
+  }
+
+  $('#task-form').find('input[type=text]').val(''); // clear input fields after submission
+
+} // end of addTask
 
 function updateCheck(event) {
   event.preventDefault();
@@ -104,7 +103,7 @@ function updateCheck(event) {
   });
 
   swal("OK", "You changed the status of a task.")
-}
+} // end of updateCheck
 
 function updateTask(event) {
   event.preventDefault();
@@ -121,23 +120,10 @@ function updateTask(event) {
     success: getTasks
   });
   swal("Excellent!", "Your task has been updated!", "success")
-}
-
-// function deleteTask (event){
-//   console.log('this:', this);
-//   var confirmation = confirm ('Are you sure you want to delete this entry?');
-//   if (confirmation == true) {
-//     event.preventDefault();
-//     $.ajax({
-//       url: '/tasks/' + $(this).parent().data('id'),
-//       type: 'DELETE',
-//       success: getTasks
-//     });
-//   }
-// }
+} // end of updateTask
 
 function deleteTask (event){
-  // console.log('this:', this);
+  var _this = this;
   swal({
     title: "Are you sure?",
     text: "You will not be able to recover this task!",
@@ -150,15 +136,14 @@ function deleteTask (event){
     function(isConfirm){
       if (isConfirm) {
         event.preventDefault();
-        console.log('this:', $('.delete'));
         swal("Deleted!", "You have succesfully deleted this task", "success");
         $.ajax({
-          url: '/tasks/' + $('.delete').parent().data('id'),
+          url: '/tasks/' + $(_this).parent().data('id'),
           type: 'DELETE',
           success: getTasks
         });
       } else {
         swal("Cancelled", "Your task is safe.", "error");
       }// end else
-    });// end swal alert
+    });// end sweet alert
 } // end of deleteTask

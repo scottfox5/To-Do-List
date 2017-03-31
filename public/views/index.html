@@ -19,25 +19,25 @@
         <div class='container'>
           <div class="form-div">
             <img class="img-responsive" src="../images/checklist.png"/>
-            <form class="form-horizontal" id="task-form">
-              <div class='col-xs-12'>
+
+            <form class="form" id="task-form">
+
                 <div class="form-group">
                   <label class="sr-only" for="task">Task</label>
-                  <input type="text" id="task" name="task" class="form-control focus" placeholder="add task..." />
+                  <input type="text" id="task" name="task" class="form-control focus" placeholder="add task..." required/>
                 </div>
-              </div>
-              <div class='col-xs-12'>
+
                 <div class="form-group">
                   <label class="sr-only" for="notes">Notes</label>
-                  <input type="text" id="notes" name="notes" class="form-control focus" placeholder="details..." />
+                  <input type="text" id="notes" name="notes" class="form-control focus" placeholder="details..." required/>
                 </div>
-              </div>
-              <div class="col-xs-12">
+
                 <div class="form-group">
-                  <button id="addTask" class="btn btn-outline-primary btn-lg" type="button"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                  <button id="addTask" class="btn btn-outline-primary btn-lg"><i class="fa fa-plus" aria-hidden="true"></i></button>
                 </div>
-              </div>
+
             </form>
+
           </div>
 
 
@@ -52,6 +52,7 @@
                 <th><i class="fa fa-minus-square fa-lg" aria-hidden="true"></i></th>
               </thead>
               <tbody id='table-body'>
+                <!-- content to be added via jQuery -->
               </tbody>
             </table>
           </div>

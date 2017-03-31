@@ -83,6 +83,7 @@ function addTask(event) {
     data: formData,
     success: getTasks
   });
+  swal("Great!", "You added a task!", "success")
 
   $('#task-form').find('input[type=text]').val('');
 }
@@ -101,6 +102,8 @@ function updateCheck(event) {
     data: data.serialize(),
     success: getTasks
   });
+
+  swal("OK", "You changed the status of a task.")
 }
 
 function updateTask(event) {
@@ -117,16 +120,45 @@ function updateTask(event) {
     data: data.serialize(),
     success: getTasks
   });
+  swal("Excellent!", "Your task has been updated!", "success")
 }
 
+// function deleteTask (event){
+//   console.log('this:', this);
+//   var confirmation = confirm ('Are you sure you want to delete this entry?');
+//   if (confirmation == true) {
+//     event.preventDefault();
+//     $.ajax({
+//       url: '/tasks/' + $(this).parent().data('id'),
+//       type: 'DELETE',
+//       success: getTasks
+//     });
+//   }
+// }
+
 function deleteTask (event){
-  var confirmation = confirm ('Are you sure you want to delete this entry?');
-  if (confirmation == true) {
-    event.preventDefault();
-    $.ajax({
-      url: '/tasks/' + $(this).parent().data('id'),
-      type: 'DELETE',
-      success: getTasks
-    });
-  }
-}
+  // console.log('this:', this);
+  swal({
+    title: "Are you sure?",
+    text: "You will not be able to recover this task!",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#DD6B55",confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "No, cancel please!",
+    closeOnConfirm: false,
+    closeOnCancel: false },
+    function(isConfirm){
+      if (isConfirm) {
+        event.preventDefault();
+        console.log('this:', $('.delete'));
+        swal("Deleted!", "You have succesfully deleted this task", "success");
+        $.ajax({
+          url: '/tasks/' + $('.delete').parent().data('id'),
+          type: 'DELETE',
+          success: getTasks
+        });
+      } else {
+        swal("Cancelled", "Your task is safe.", "error");
+      }// end else
+    });// end swal alert
+} // end of deleteTask

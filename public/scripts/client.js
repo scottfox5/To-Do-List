@@ -38,15 +38,18 @@ function displayTasks(tasks){
     $tableRow.append('<td><input class="focus editFields" type="text" name="task" value="' + task.task +'"/></td>');
     $tableRow.append('<td><input class="focus editFields" type="text" name="notes" value="' + task.notes + '"/></td>');
 
-    var updateTime = task.updated;
-    var x = updateTime.toLocaleDateString;
-    console.log('Update Time:', updateTime, x);
-      $tableRow.append('<td id="theDate">' + updateTime + '</td>');
+    // formatting date
+    var updateTime = new Date(task.updated);
+    updateTime = updateTime.toLocaleString();
+    console.log('Update Time:', updateTime);
+    $tableRow.append('<td id="theDate">' + updateTime + '</td>');
 
+    // button to update task
     var $updateButton = $('<td><button class="update btn btn-outline-success btn-sm"><i class="fa fa-pencil" aria-hidden="true"></i></button></td>');
     $updateButton.data('id', task.id);
     $tableRow.append($updateButton);
 
+    // button to delete task
     var $deleteButton = $('<td><button class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button></td>');
     $deleteButton.data('id', task.id);
     $tableRow.append($deleteButton);

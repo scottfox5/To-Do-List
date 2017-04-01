@@ -15,7 +15,7 @@ router.get("/", function(req, res) {
       res.sendStatus(500);
       done();
     } else {
-      client.query("SELECT * FROM tasks ORDER BY complete DESC", function(err, result) {
+      client.query("SELECT * FROM tasks ORDER BY complete ASC", function(err, result) {
         done();
         if (err) {
           console.log("Error querying DB", err);
@@ -30,7 +30,11 @@ router.get("/", function(req, res) {
 });
 
 router.post("/", function(req, res) {
-  console.log('task', req.body);
+
+  req.body.complete = false; // setting complete to false when task is added
+  req.body.updated = new Date(); // setting date/time when task is added
+  console.log('Adding Task:', req.body);
+
   pool.connect(function(err, client, done) {
     if (err) {
       console.log("Error connecting to DB", err);
@@ -56,7 +60,11 @@ router.post("/", function(req, res) {
 });
 
 router.put('/:id', function(req, res){
-  console.log('updating task', req.body);
+  if (req.body.complete == null){ // correcting problem of task complete changing to null when unchecked
+    req.body.complete = false;
+  }
+  req.body.updated = new Date(); // updating date/time when task is updated
+  console.log('Updating Task:', req.body);
   pool.connect(function(err, client, done){
     if (err) {
       console.log('Error connecting to DB', err);

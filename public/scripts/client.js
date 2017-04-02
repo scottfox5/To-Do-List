@@ -15,33 +15,35 @@ function getTasks() {
     type: 'GET',
     success: displayTasks
   });
-}
+} // end of getTasks
 
 function displayTasks(tasks){
+  // console.log('Tasks:', tasks)
+  $('#table-body').empty(); // clears table so tasks are not duplicated
 
-    $('#table-body').empty();
+  tasks.forEach(function(task){ // loop through tasks, which is array of objects
 
-    tasks.forEach(function(task){
+    var $tableRow = $('<tr></tr>'); // declaring table row variable
 
-    var $tableRow = $('<tr></tr>');
-
-    if (task.complete == true){
-      var $checkBox = $(('<td><input id="checkIt" type="checkbox" name="complete" value="false" checked/></td>'));
+    // adding checkboxes to table
+    if (task.complete){ // if task is complete, checkbox will be checked
+      var $checkBox = $(('<td><input id="checkIt" type="checkbox" name="complete" value="x" checked/></td>'));
       $checkBox.data('id', task.id);
       $tableRow.append($checkBox);
-    } else {
-      var $checkBox = $(('<td><input id="checkIt" type="checkbox" name="complete" value="true"/></td>'));
+    } else { // if task is not complete, leave checkbox unchecked
+      var $checkBox = $(('<td><input id="checkIt" type="checkbox" name="complete" value="y"/></td>'));
       $checkBox.data('id', task.id);
       $tableRow.append($checkBox);
     }
 
+    // adding task and notes to table
     $tableRow.append('<td><input class="focus editFields" type="text" name="task" value="' + task.task +'"/></td>');
     $tableRow.append('<td><input class="focus editFields" type="text" name="notes" value="' + task.notes + '"/></td>');
 
-    // formatting date
-    var updateTime = new Date(task.updated);
+    // adding date/time of when task was most recently updated to table
+    var updateTime = new Date(task.updated); // formatting date
     updateTime = updateTime.toLocaleString();
-    console.log('Update Time:', updateTime);
+    // console.log('Update Time:', updateTime);
     $tableRow.append('<td id="theDate">' + updateTime + '</td>');
 
     // button to update task
@@ -54,14 +56,14 @@ function displayTasks(tasks){
     $deleteButton.data('id', task.id);
     $tableRow.append($deleteButton);
 
-    // console.log($('#checkIt').attr('value'));
-
+    // appending row to table
     $('#task-table').append($tableRow);
 
-    $("[value=false]").parent().siblings().find('input').css({'text-decoration': 'line-through', 'color': 'lightgray'});
-
+    // changing appearance of completed tasks
+    $("[value=x]").parent().siblings().find('input').css({'text-decoration': 'line-through', 'color': 'lightgray'});
+    
   });
-}
+} // end of displayTasks
 
 function addTask(event) {
 

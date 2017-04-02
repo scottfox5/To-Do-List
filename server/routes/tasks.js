@@ -21,17 +21,7 @@ var pool = new pg.Pool(config);
 //
 // });
 
-pg.defaults.ssl = true;
-pg.connect(process.env.DATABASE_URL, function(err, client) {
-  if (err) throw err;
-  console.log('Connected to postgres! Getting schemas...');
 
-  client
-    .query('SELECT * FROM tasks;')
-    .on('row', function(row) {
-      console.log(JSON.stringify(row));
-    });
-});
 // // If we are running on Heroku, use the remote database (with SSL)
 // if(process.env.DATABASE_URL != undefined) {
 //     connectionString = process.env.DATABASE_URL + "?ssl=true";
@@ -42,6 +32,17 @@ pg.connect(process.env.DATABASE_URL, function(err, client) {
 
 router.get("/", function(req, res) {
 
+  pg.defaults.ssl = true;
+  pg.connect(process.env.DATABASE_URL, function(err, client) {
+    if (err) throw err;
+    console.log('Connected to postgres! Getting schemas...');
+
+    client
+      .query('SELECT * FROM tasks;')
+      .on('row', function(row) {
+        console.log(JSON.stringify(row));
+      });
+  });
   // pool.connect(function(err, client, done) {
   //   if (err) {
   //     console.log("Error connecting to DB", err);

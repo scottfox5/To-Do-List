@@ -6,7 +6,8 @@ var pool = new pg.Pool(config);
 
 
 // trying to connect SQL database for heroku deployment
-router.get('/db', function (request, response) {
+router.get('/', function (request, response) {
+  console.log('Test', request, response)
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT * FROM tasks', function(err, result) {
       done();

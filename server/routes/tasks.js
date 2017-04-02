@@ -1,10 +1,7 @@
 var express = require("express");
 var router = express.Router();
-
 var pg = require("pg");
-
 var config = { database: "to_do_list_db" };
-
 var pool = new pg.Pool(config);
 
 router.get("/", function(req, res) {
@@ -33,6 +30,7 @@ router.post("/", function(req, res) {
 
   req.body.complete = false; // setting complete to false when task is added
   req.body.updated = new Date(); // setting date/time when task is added
+  req.body.list_id = 1; // setting list id, TODO add ability to have multiple lists with different ids
   console.log('Adding Task:', req.body);
 
   pool.connect(function(err, client, done) {
@@ -42,8 +40,8 @@ router.post("/", function(req, res) {
       done();
     } else {
       client.query(
-        "INSERT INTO tasks (task, notes, complete, updated) VALUES ($1, $2, $3, $4) RETURNING *;",
-        [req.body.task, req.body.notes, req.body.complete, req.body.updated],
+        "INSERT INTO tasks (task, notes, complete, updated, list_id) VALUES ($1, $2, $3, $4, $5) RETURNING *;",
+        [req.body.task, req.body.notes, req.body.complete, req.body.updated, req.body.list_id],
         function(err, result) {
           done();
           if (err) {

@@ -5,13 +5,24 @@ var config = { database: "to_do_list_db" };
 // process.env.DATABASE_URL
 var pool = new pg.Pool(config);
 
-// If we are running on Heroku, use the remote database (with SSL)
-if(process.env.DATABASE_URL != undefined) {
-    connectionString = process.env.DATABASE_URL + "?ssl=true";
-} else {
-    // running locally, use our local database instead
-    connectionString = 'postgres://localhost:5432/to_do_list_db';
-}
+pg.defaults.ssl = true;
+pg.connect(process.env.DATABASE_URL, function(err, client) {
+  if (err) throw err;
+  console.log('Connected to postgres! Getting schemas...');
+
+  client
+    .query('SELECT table_schema,table_name FROM information_schema.tables;')
+    .on('row', function(row) {
+      console.log(JSON.stringify(row));
+    });
+});
+// // If we are running on Heroku, use the remote database (with SSL)
+// if(process.env.DATABASE_URL != undefined) {
+//     connectionString = process.env.DATABASE_URL + "?ssl=true";
+// } else {
+//     // running locally, use our local database instead
+//     connectionString = 'postgres://localhost:5432/to_do_list_db';
+// }
 
 router.get("/", function(req, res) {
 

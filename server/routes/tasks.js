@@ -1,9 +1,17 @@
 var express = require("express");
 var router = express.Router();
 var pg = require("pg");
-// var config = { database: "to_do_list_db" };
-// var config = { database: process.env.DATABASE_URL };
-var pool = new pg.Pool(process.env.DATABASE_URL);
+var config = { database: "to_do_list_db" };
+// process.env.DATABASE_URL
+var pool = new pg.Pool(config);
+
+// If we are running on Heroku, use the remote database (with SSL)
+if(process.env.DATABASE_URL != undefined) {
+    connectionString = process.env.DATABASE_URL + "?ssl=true";
+} else {
+    // running locally, use our local database instead
+    connectionString = 'postgres://localhost:5432/to_do_list_db';
+}
 
 router.get("/", function(req, res) {
 

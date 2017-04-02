@@ -1,7 +1,8 @@
 var express = require("express");
 var router = express.Router();
 var pg = require("pg");
-var config = { database: "to_do_list_db" };
+// var config = { database: "to_do_list_db" };
+var config = { database: process.env.DATABASE_URL };
 var pool = new pg.Pool(config);
 
 router.get("/", function(req, res) {

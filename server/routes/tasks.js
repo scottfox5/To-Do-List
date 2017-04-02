@@ -13,9 +13,10 @@ router.get('/db', function (request, response) {
       if (err)
        { console.error(err); response.send("Error " + err); }
       else {
-        response.render('pages/db', {results: result.rows
+        response.render('pages/db', {results: result.rows} );
         console.log('result.rows', result.rows)
-        } ); }
+
+      }
     });
   });
 });

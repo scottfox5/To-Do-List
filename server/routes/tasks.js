@@ -1,9 +1,9 @@
 var express = require("express");
 var router = express.Router();
 var pg = require("pg");
-var config = { database: "to_do_list_db" };
+var config = { database: DATABASE_URL };
 // process.env.DATABASE_URL
-var pool = new pg.Pool(DATABASE_URL);
+var pool = new pg.Pool(config);
 
 // If we are running on Heroku, use the remote database (with SSL)
 if(process.env.DATABASE_URL != undefined) {

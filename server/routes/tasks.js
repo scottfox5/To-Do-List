@@ -3,7 +3,7 @@ var router = express.Router();
 var pg = require("pg");
 var config = { database: "to_do_list_db" };
 // process.env.DATABASE_URL
-var pool = new pg.Pool(process.env.DATABASE_URL);
+var pool = new pg.Pool(config);
 
 // var PGUSER = 'xacxunfinnebxe'
 // var PGDATABSE ='dab1q8970c41lh'
@@ -21,17 +21,17 @@ var pool = new pg.Pool(process.env.DATABASE_URL);
 //
 // });
 
-// pg.defaults.ssl = true;
-// pg.connect(process.env.DATABASE_URL, function(err, client) {
-//   if (err) throw err;
-//   console.log('Connected to postgres! Getting schemas...');
-//
-//   client
-//     .query('SELECT * FROM tasks;')
-//     .on('row', function(row) {
-//       console.log(JSON.stringify(row));
-//     });
-// });
+pg.defaults.ssl = true;
+pg.connect(process.env.DATABASE_URL, function(err, client) {
+  if (err) throw err;
+  console.log('Connected to postgres! Getting schemas...');
+
+  client
+    .query('SELECT * FROM tasks;')
+    .on('row', function(row) {
+      console.log(JSON.stringify(row));
+    });
+});
 // // If we are running on Heroku, use the remote database (with SSL)
 // if(process.env.DATABASE_URL != undefined) {
 //     connectionString = process.env.DATABASE_URL + "?ssl=true";
@@ -42,24 +42,24 @@ var pool = new pg.Pool(process.env.DATABASE_URL);
 
 router.get("/", function(req, res) {
 
-  pool.connect(function(err, client, done) {
-    if (err) {
-      console.log("Error connecting to DB", err);
-      res.sendStatus(500);
-      done();
-    } else {
-      client.query("SELECT * FROM tasks ORDER BY complete ASC", function(err, result) {
-        done();
-        if (err) {
-          console.log("Error querying DB", err);
-          res.sendStatus(500);
-        } else {
-          console.log("Got info from DB", result.rows);
-          res.send(result.rows);
-        }
-      });
-    }
-  });
+  // pool.connect(function(err, client, done) {
+  //   if (err) {
+  //     console.log("Error connecting to DB", err);
+  //     res.sendStatus(500);
+  //     done();
+  //   } else {
+  //     client.query("SELECT * FROM tasks ORDER BY complete ASC", function(err, result) {
+  //       done();
+  //       if (err) {
+  //         console.log("Error querying DB", err);
+  //         res.sendStatus(500);
+  //       } else {
+  //         console.log("Got info from DB", result.rows);
+  //         res.send(result.rows);
+  //       }
+  //     });
+  //   }
+  // });
 });
 
 router.post("/", function(req, res) {

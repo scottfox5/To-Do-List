@@ -1,9 +1,13 @@
 var express = require("express");
 var router = express.Router();
 var pg = require("pg");
-var config = { database: "to_do_list_db" };
+// var config = { database: "to_do_list_db" };
 // process.env.DATABASE_URL
-var pool = new pg.Pool(config);
+// var pool = new pg.Pool(config);
+var PGUSER = 'xacxunfinnebxe'
+var PGDATABSE ='dab1q8970c41lh'
+var PGPASSWORD = '0b44df3e43dea3d305eaad219b1ed4d660995b8a79b066fff40ec45dd755c935'
+var PGHOST = 'ec2-107-22-244-62.compute-1.amazonaws.com'
 
 var pool = new pg.Pool({
   user: process.env.PGUSER, //env var: PGUSER

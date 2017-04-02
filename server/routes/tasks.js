@@ -6,10 +6,10 @@ var config = { database: "to_do_list_db" };
 var pool = new pg.Pool(config);
 
 var pool = new pg.Pool({
-  user: process.env.xacxunfinnebxe, //env var: PGUSER
-  database: process.env.dab1q8970c41lh, //env var: process.env.PGDATABASE
-  password: process.env.0b44df3e43dea3d305eaad219b1ed4d660995b8a79b066fff40ec45dd755c935, //env var: PGPASSWORD
-  host: process.env.ec2-107-22-244-62.compute-1.amazonaws.com, // PGHOST Server hosting the postgres database
+  user: process.env.PGUSER, //env var: PGUSER
+  database: process.env.PGDATABASE, //env var: process.env.PGDATABASE
+  password: process.env.PGPASSWORD, //env var: PGPASSWORD
+  host: process.env.PGHOST, // PGHOST Server hosting the postgres database
   port: 5432, //env var: PGPORT
   max: 10, // max number of clients in the pool
   idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed

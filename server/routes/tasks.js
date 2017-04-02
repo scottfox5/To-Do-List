@@ -5,17 +5,28 @@ var config = { database: "to_do_list_db" };
 // process.env.DATABASE_URL
 var pool = new pg.Pool(config);
 
-pg.defaults.ssl = true;
-pg.connect(process.env.DATABASE_URL, function(err, client) {
-  if (err) throw err;
-  console.log('Connected to postgres! Getting schemas...');
+var pool = new pg.Pool({
+  user: process.env.xacxunfinnebxe, //env var: PGUSER
+  database: process.env.dab1q8970c41lh, //env var: process.env.PGDATABASE
+  password: process.env.0b44df3e43dea3d305eaad219b1ed4d660995b8a79b066fff40ec45dd755c935, //env var: PGPASSWORD
+  host: process.env.ec2-107-22-244-62.compute-1.amazonaws.com, // PGHOST Server hosting the postgres database
+  port: 5432, //env var: PGPORT
+  max: 10, // max number of clients in the pool
+  idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
 
-  client
-    .query('SELECT table_schema,table_name FROM information_schema.tables;')
-    .on('row', function(row) {
-      console.log(JSON.stringify(row));
-    });
 });
+
+// pg.defaults.ssl = true;
+// pg.connect(process.env.DATABASE_URL, function(err, client) {
+//   if (err) throw err;
+//   console.log('Connected to postgres! Getting schemas...');
+//
+//   client
+//     .query('SELECT table_schema,table_name FROM information_schema.tables;')
+//     .on('row', function(row) {
+//       console.log(JSON.stringify(row));
+//     });
+// });
 // // If we are running on Heroku, use the remote database (with SSL)
 // if(process.env.DATABASE_URL != undefined) {
 //     connectionString = process.env.DATABASE_URL + "?ssl=true";

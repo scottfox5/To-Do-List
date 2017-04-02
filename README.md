@@ -1,20 +1,20 @@
-# Full-Stack To-Do List using SQL database
+# To-Do List
 
-This is a To Do list application using the full stack with the list being stored in a sql database. When the user adds a task, the database is updated. When the task is complete the user can check it off and its status will change in the database to complete (true). Also, completed items have a different appearance on the screen and they are moved to the bottom of the list. Finally, when the user wants to delete the item from the list, a delete button can be clicked, which will ask the user to confirm, and upon confirmation it will also be removed from the database.
+This is a full-stack To-Do list application using a jQuery front-end, node back-end, and SQL database. Users can add a task, and when complete, the user can use a checkbox to mark a task complete. After marking a task complete, the task will change appearance and be sorted to the bottom of the list. Users are also able to update and delete the tasks/details. 
 
 ## Author: Scott Fox
 
 ## Date: 29 Jan 2017
 
 ### Technology used:
-- HTML 
-- CSS 
-- Bootstrap 
+- HTML
+- CSS
+- Bootstrap
 - JavaScript
 - jQuery
 - Node.js
-- Express 
-- SQL 
+- Express
+- SQL
 - Git
 
 ### Setup:

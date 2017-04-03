@@ -9,7 +9,7 @@ var config = process.env.DATABASE_URL || { database: "to_do_list_db" } // used t
 
 router.get("/", function(req, res) {
 
-  // pg.defaults.ssl = true; // this code is necessary for heroku deployment only
+  pg.defaults.ssl = true; // this code is necessary for heroku deployment only
   pg.connect(config, function(err, client, done) {
     if (err) {
       console.log("Error connecting to DB", err);

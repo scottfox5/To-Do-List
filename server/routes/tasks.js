@@ -1,22 +1,9 @@
 var express = require("express");
 var router = express.Router();
 var pg = require("pg");
-var config = { database: "to_do_list_db" };
+// var config = { database: "to_do_list_db" };
+var config = process.env.DATABASE_URL
 var pool = new pg.Pool(config);
-
-
-// // trying to connect SQL database for heroku deployment
-// pg.defaults.ssl = true;
-// pg.connect(process.env.DATABASE_URL, function(err, client) {
-//   if (err) throw err;
-//   console.log('Connected to postgres! Getting schemas...');
-//
-//   client.query("SELECT * FROM tasks ORDER BY complete ASC")
-//     .on('row', function(row) {
-//       console.log('Row:', JSON.stringify(row));
-//     });
-// });
-
 
 router.get("/", function(req, res) {
   // trying to connect SQL database for heroku deployment

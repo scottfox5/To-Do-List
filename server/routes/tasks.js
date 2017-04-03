@@ -19,7 +19,7 @@ router.get("/", function(req, res) {
   // });
 
   pg.defaults.ssl = true;
-  pg.connect(config, function(err, client) {
+  pg.connect(config, function(err, client, done) {
     if (err) throw err;
     console.log('Connected to postgres! Getting schemas...');
 

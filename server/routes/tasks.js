@@ -18,7 +18,7 @@ router.get("/", function(req, res) {
   //     });
   // });
 
-  pool.connect(function(err, client, done) {
+  pool.connect(process.env.DATABASE_URL, function(err, client, done) {
     if (err) {
       console.log("Error connecting to DB", err);
       res.sendStatus(500);

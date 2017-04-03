@@ -6,20 +6,15 @@ var pool = new pg.Pool(config);
 
 
 // trying to connect SQL database for heroku deployment
-router.get('/', function (request, response) {
-  console.log('Test', request, response)
-  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * FROM tasks', function(err, result) {
-      done();
-      if (err)
-       { console.error(err); response.send("Error " + err); }
-      else {
-        response.render('pages/db', {results: result.rows} );
-        console.log('result.rows', result.rows)
+pg.defaults.ssl = true;
+pg.connect(process.env.DATABASE_URL, function(err, client) {
+  if (err) throw err;
+  console.log('Connected to postgres! Getting schemas...');
 
-      }
+  client.query("SELECT * FROM tasks ORDER BY complete ASC")
+    .on('row', function(row) {
+      console.log('Row:', JSON.stringify(row));
     });
-  });
 });
 
 

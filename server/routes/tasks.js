@@ -18,7 +18,8 @@ router.get("/", function(req, res) {
   //     });
   // });
 
-  pool.connect(process.env.DATABASE_URL, function(err, client, done) {
+  pool.connect(function(err, client, done) {
+    pg.defaults.ssl = true;
     if (err) {
       console.log("Error connecting to DB", err);
       res.sendStatus(500);

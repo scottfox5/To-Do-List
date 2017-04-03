@@ -15,6 +15,7 @@ router.get("/", function(req, res) {
     client.query("SELECT * FROM tasks ORDER BY complete ASC")
       .on('row', function(row) {
         console.log('Row:', JSON.stringify(row));
+        res.send(row);
       });
   });
 

@@ -7,16 +7,36 @@ var pool = new pg.Pool(config);
 
 router.get("/", function(req, res) {
   // trying to connect SQL database for heroku deployment
+  // pg.defaults.ssl = true;
+  // pg.connect(config, function(err, client) {
+  //   if (err) throw err;
+  //   console.log('Connected to postgres! Getting schemas...');
+  //
+  //   client.query("SELECT * FROM tasks ORDER BY complete ASC")
+  //     .on('row', function(row) {
+  //       console.log('Row:', JSON.stringify(row));
+  //     });
+  // });
+
   pg.defaults.ssl = true;
   pg.connect(config, function(err, client) {
     if (err) throw err;
     console.log('Connected to postgres! Getting schemas...');
 
-    client.query("SELECT * FROM tasks ORDER BY complete ASC")
-      .on('row', function(row) {
-        console.log('Row:', JSON.stringify(row));
-        res.send(result.rows);
-      });
+    // client.query("SELECT * FROM tasks ORDER BY complete ASC")
+    //   .on('row', function(row) {
+    //     console.log('Row:', JSON.stringify(row));
+    //   });
+          client.query("SELECT * FROM tasks ORDER BY complete ASC", function(err, result) {
+            done();
+            if (err) {
+              console.log("Error querying DB", err);
+              res.sendStatus(500);
+            } else {
+              console.log("Got info from DB", result.rows);
+              res.send(result.rows);
+            }
+          });
   });
 
   // pool.connect(function(err, client, done) {

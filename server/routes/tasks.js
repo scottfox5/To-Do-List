@@ -20,7 +20,7 @@ router.get("/", function(req, res) {
 
   pg.defaults.ssl = true; // this code is necessary for heroku deployment only
 
-  pool.connect(function(err, client, done) {
+  pg.connect(config, function(err, client, done) {
     if (err) {
       console.log("Error connecting to DB", err);
       res.sendStatus(500);
@@ -69,7 +69,7 @@ router.post("/", function(req, res) {
   req.body.list_id = 1; // setting list id, TODO add ability to have multiple lists with different ids
   console.log('Adding Task:', req.body);
 
-  pool.connect(function(err, client, done) {
+  pg.connect(config, function(err, client, done) {
     if (err) {
       console.log("Error connecting to DB", err);
       res.sendStatus(500);
@@ -99,7 +99,7 @@ router.put('/:id', function(req, res){
   }
   req.body.updated = new Date(); // updating date/time when task is updated
   console.log('Updating Task:', req.body);
-  pool.connect(function(err, client, done){
+  pg.connect(config, function(err, client, done){
     if (err) {
       console.log('Error connecting to DB', err);
       res.sendStatus(500);
@@ -121,7 +121,7 @@ router.put('/:id', function(req, res){
 })
 
 router.delete('/:id', function(req, res){
-  pool.connect(function(err, client, done){
+  pg.connect(config, function(err, client, done){
     if (err) {
       console.log('Error connecting to DB', err);
       res.sendStatus(500);

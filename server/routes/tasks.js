@@ -18,7 +18,7 @@ router.get("/", function(req, res) {
   //     });
   // });
 
-  pool.defaults.ssl = true; // this code is necessary for heroku deployment only
+  pg.defaults.ssl = true; // this code is necessary for heroku deployment only
 
   pool.connect(function(err, client, done) {
     if (err) {

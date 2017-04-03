@@ -1,66 +1,35 @@
 var express = require("express");
 var router = express.Router();
 var pg = require("pg");
+var config = process.env.DATABASE_URL || { database: "to_do_list_db" } // used this for heroku deployment and replaced pool w/ pg and added config after connect
+
+// before deploying to heroku, used this code along with pool.connect(function...) instead of pg.connect(config, function...)
 // var config = { database: "to_do_list_db" };
-var config = process.env.DATABASE_URL || { database: "to_do_list_db" }
-var pool = new pg.Pool(config);
+// var pool = new pg.Pool(config);
 
 router.get("/", function(req, res) {
-  // trying to connect SQL database for heroku deployment
-  // pg.defaults.ssl = true;
-  // pg.connect(config, function(err, client) {
-  //   if (err) throw err;
-  //   console.log('Connected to postgres! Getting schemas...');
-  //
-  //   client.query("SELECT * FROM tasks ORDER BY complete ASC")
-  //     .on('row', function(row) {
-  //       console.log('Row:', JSON.stringify(row));
-  //     });
-  // });
 
-  pg.defaults.ssl = true; // this code is necessary for heroku deployment only
-
+  // pg.defaults.ssl = true; // this code is necessary for heroku deployment only
   pg.connect(config, function(err, client, done) {
     if (err) {
       console.log("Error connecting to DB", err);
       res.sendStatus(500);
       done();
     } else {
-    console.log('Connected to postgres! Getting schemas...');
-    client.query("SELECT * FROM tasks ORDER BY complete ASC", function(err, result) {
-      done();
-      if (err) {
-      console.log("Error querying DB", err);
-      res.sendStatus(500);
-      } else {
-      console.log("Got info from DB", result.rows);
-      res.send(result.rows);
-      }
-    });
-    }
-  });
-
-  // pool.connect(function(err, client, done) {
-  //   pg.defaults.ssl = true;
-  //   if (err) {
-  //     console.log("Error connecting to DB", err);
-  //     res.sendStatus(500);
-  //     done();
-  //   } else {
-  //     console.log('Connected to postgres! Getting schemas...');
-  //     client.query("SELECT * FROM tasks ORDER BY complete ASC", function(err, result) {
-  //       done();
-  //       if (err) {
-  //         console.log("Error querying DB", err);
-  //         res.sendStatus(500);
-  //       } else {
-  //         console.log("Got info from DB", result.rows);
-  //         res.send(result.rows);
-  //       }
-  //     });
-  //   }
-  // });
-});
+      console.log('Connected to postgres! Getting schemas...');
+      client.query("SELECT * FROM tasks ORDER BY complete ASC", function(err, result) {
+        done();
+        if (err) {
+        console.log("Error querying DB", err);
+        res.sendStatus(500);
+        } else {
+        console.log("Got info from DB", result.rows);
+        res.send(result.rows);
+        }
+      });
+    } // end of else
+  }); // end of connect
+}); // end of get
 
 router.post("/", function(req, res) {
 
@@ -89,9 +58,9 @@ router.post("/", function(req, res) {
           }
         }
       );
-    }
-  });
-});
+    } // end of else
+  }); // end of connect
+}); // end of post
 
 router.put('/:id', function(req, res){
   if (req.body.complete == null){ // correcting problem of task complete changing to null when unchecked
@@ -106,19 +75,19 @@ router.put('/:id', function(req, res){
       done();
     } else {
       client.query('UPDATE tasks SET task=$2, notes=$3, complete=$4, updated=$5 WHERE id = $1 RETURNING *',
-                   [req.params.id, req.body.task, req.body.notes, req.body.complete, req.body.updated],
-                   function(err, result){
-                     done();
-                     if (err) {
-                       console.log('Error updating task', err);
-                       res.sendStatus(500);
-                     } else {
-                       res.send(result.rows);
-                     }
-                   });
-    }
-  });
-})
+        [req.params.id, req.body.task, req.body.notes, req.body.complete, req.body.updated],
+        function(err, result){
+        done();
+        if (err) {
+          console.log('Error updating task', err);
+          res.sendStatus(500);
+        } else {
+          res.send(result.rows);
+        }
+      });
+    } // end of else
+  }); // end of connect
+}); // end of put
 
 router.delete('/:id', function(req, res){
   pg.connect(config, function(err, client, done){
@@ -128,18 +97,18 @@ router.delete('/:id', function(req, res){
       done();
     } else {
       client.query('DELETE FROM tasks WHERE id = $1',
-                   [req.params.id],
-                   function(err, result){
-                     done();
-                     if (err) {
-                       console.log('Error deleting task', err);
-                       res.sendStatus(500);
-                     } else {
-                       res.sendStatus(204);
-                     }
-                   });
-    }
-  });
-});
+        [req.params.id],
+        function(err, result){
+          done();
+          if (err) {
+            console.log('Error deleting task', err);
+            res.sendStatus(500);
+          } else {
+            res.sendStatus(204);
+          }
+        });
+    } // end of else
+  }); // end of connect
+}); // end of delete
 
 module.exports = router;

@@ -2,42 +2,42 @@ var express = require("express");
 var router = express.Router();
 var pg = require("pg");
 // var config = { database: "to_do_list_db" };
-var config = process.env.DATABASE_URL
+var config = process.env.DATABASE_URL || { database: "to_do_list_db" }
 var pool = new pg.Pool(config);
 
 router.get("/", function(req, res) {
   // trying to connect SQL database for heroku deployment
-  // pg.defaults.ssl = true;
-  // pg.connect(process.env.DATABASE_URL, function(err, client) {
-  //   if (err) throw err;
-  //   console.log('Connected to postgres! Getting schemas...');
-  //
-  //   client.query("SELECT * FROM tasks ORDER BY complete ASC")
-  //     .on('row', function(row) {
-  //       console.log('Row:', JSON.stringify(row));
-  //     });
-  // });
+  pg.defaults.ssl = true;
+  pg.connect(config, function(err, client) {
+    if (err) throw err;
+    console.log('Connected to postgres! Getting schemas...');
 
-  pool.connect(function(err, client, done) {
-    pg.defaults.ssl = true;
-    if (err) {
-      console.log("Error connecting to DB", err);
-      res.sendStatus(500);
-      done();
-    } else {
-      console.log('Connected to postgres! Getting schemas...');
-      client.query("SELECT * FROM tasks ORDER BY complete ASC", function(err, result) {
-        done();
-        if (err) {
-          console.log("Error querying DB", err);
-          res.sendStatus(500);
-        } else {
-          console.log("Got info from DB", result.rows);
-          res.send(result.rows);
-        }
+    client.query("SELECT * FROM tasks ORDER BY complete ASC")
+      .on('row', function(row) {
+        console.log('Row:', JSON.stringify(row));
       });
-    }
   });
+
+  // pool.connect(function(err, client, done) {
+  //   pg.defaults.ssl = true;
+  //   if (err) {
+  //     console.log("Error connecting to DB", err);
+  //     res.sendStatus(500);
+  //     done();
+  //   } else {
+  //     console.log('Connected to postgres! Getting schemas...');
+  //     client.query("SELECT * FROM tasks ORDER BY complete ASC", function(err, result) {
+  //       done();
+  //       if (err) {
+  //         console.log("Error querying DB", err);
+  //         res.sendStatus(500);
+  //       } else {
+  //         console.log("Got info from DB", result.rows);
+  //         res.send(result.rows);
+  //       }
+  //     });
+  //   }
+  // });
 });
 
 router.post("/", function(req, res) {

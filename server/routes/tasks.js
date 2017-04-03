@@ -18,9 +18,9 @@ router.get("/", function(req, res) {
   //     });
   // });
 
-  pg.defaults.ssl = true;
-  pg.connect(config, function(err, client, done) {
-    // if (err) throw err;
+  pool.defaults.ssl = true; // this code is necessary for heroku deployment only
+
+  pool.connect(function(err, client, done) {
     if (err) {
       console.log("Error connecting to DB", err);
       res.sendStatus(500);
